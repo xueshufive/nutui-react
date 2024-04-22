@@ -1,10 +1,13 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
+import { ScrollView } from '@tarojs/components'
 import { useTranslate } from '@/sites/assets/locale/taro'
 import { Cell } from '@/packages/nutui.react.taro'
 import Header from '@/sites/components/header'
 import Demo1 from './demos/taro/demo1'
 import Demo2 from './demos/taro/demo2'
+import Demo5 from './demos/taro/demo5'
+import Demo6 from './demos/taro/demo6'
 import Demo7 from './demos/taro/demo7'
 
 const ImageDemo = () => {
@@ -33,7 +36,7 @@ const ImageDemo = () => {
   return (
     <>
       <Header />
-      <div className={`demo ${Taro.getEnv() === 'WEB' ? 'web' : ''}`}>
+      <ScrollView className={`demo ${Taro.getEnv() === 'WEB' ? 'web' : ''}`}>
         <h2>{translated.basic}</h2>
         <Cell>
           <Demo1 />
@@ -42,15 +45,15 @@ const ImageDemo = () => {
         <Cell>
           <Demo2 />
         </Cell>
-        {/* <h2>{translated.imageText}</h2>
+        <h2>{translated.imageText}</h2>
         <Cell>
           <Demo5 />
         </Cell>
         <h2>{translated.fill}</h2>
-        <Demo6 /> */}
+        <Demo6 />
         <h2>{translated.position}</h2>
         <Demo7 />
-      </div>
+      </ScrollView>
     </>
   )
 }
