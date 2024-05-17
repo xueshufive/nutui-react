@@ -9,6 +9,7 @@ import Taro from '@tarojs/taro'
 import { Image as TImage, ImageProps as TImageProps } from '@tarojs/components'
 import { Image as ImageIcon, ImageError } from '@nutui/icons-react-taro'
 import classNames from 'classnames'
+import { BaseEventOrig } from '@tarojs/components/types/common'
 import { pxCheck } from '@/utils/px-check'
 
 export interface ImageProps extends Omit<TImageProps, 'style'> {
@@ -43,6 +44,21 @@ export const Image: FunctionComponent<Partial<ImageProps>> = (props) => {
   } = { ...defaultProps, ...props }
   const [innerLoading, setInnerLoading] = useState(true)
   const [isError, setIsError] = useState(false)
+
+  // 图片加载
+  const handleLoad = (e: BaseEventOrig<TImageProps.onLoadEventDetail>) => {
+    setIsError(false)
+    setInnerLoading(false)
+    onLoad && onLoad(e)
+  }
+  // 图片加载失败
+  const handleError = (e: BaseEventOrig<TImageProps.onErrorEventDetail>) => {
+    if (src) {
+      setIsError(true)
+      setInnerLoading(false)
+      onError && onError(e)
+    }
+  }
 
   const containerStyle = {
     // eslint-disable-next-line no-nested-ternary
@@ -89,10 +105,22 @@ export const Image: FunctionComponent<Partial<ImageProps>> = (props) => {
   }, [loading, innerLoading])
   return (
     <div className={classNames(classPrefix, className)} style={containerStyle}>
-      <TImage {...rest} className="nut-img" style={imgStyle} src={src} />
+      <TImage
+        {...rest}
+        className="nut-img"
+        style={imgStyle}
+        src={src}
+        onLoad={(e) => handleLoad(e)}
+        onError={(e) => handleError(e)}
+      />
+      {Taro.getEnv() !== 'HARMONY' && (
+        <>
+          {renderLoading()}
+          {renderErrorImg()}
+        </>
+      )}
     </div>
   )
 }
 
-Image.defaultProps = defaultProps
 Image.displayName = 'NutImage'
