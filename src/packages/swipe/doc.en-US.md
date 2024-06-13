@@ -16,131 +16,23 @@ import { Swipe } from '@nutui/nutui-react';
 
 :::demo
 
-```tsx
-import React from "react";
-import { Swipe, Cell, Button } from '@nutui/nutui-react';
-
-const App = () => {
-  return <>
-    <Swipe
-      rightAction={
-        <Button type="primary" shape="square">
-        delete
-        </Button>
-      }
-    >
-      <cell title= "left slide delete" />
-    </Swipe>
-  </>
-}
-export default App;
-```
+<CodeBlock src='h5/demo1.tsx'></CodeBlock>
 
 :::
 
-
 ### Card Mode
+
 :::demo
 
-```tsx
+<CodeBlock src='h5/demo2.tsx'></CodeBlock>
 
-import React from "react";
-import { Swipe, Cell, Button } from '@nutui/nutui-react';
-import { Del } from '@nutui/icons-react'
-
-const divNode = (text: string, style: any) => {
-  return (
-    <div
-      style={{
-        width: '60px',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        ...style,
-      }}
-    >
-      <Del style={{ marginBottom: '8px' }}/>
-      <>{text}</>
-    </div>
-  )
-}
-
-const App = () => {
-  return <>
-    <Swipe
-      style={{ height: '104px' }}
-      rightAction={
-        <div
-          style={{
-            height: 'inherit',
-            width: '240px',
-            display: 'flex',
-            fontSize: '12px',
-          }}
-        >
-          <>
-            {divNode('AlwaysBuy', {
-              background: '#F8F8F8',
-              color: '#1A1A1A',
-            })}
-            {divNode('Collected', {
-              background: '#ffcc00',
-              color: '#FFF',
-            })}
-            {divNode('Liked', {
-              background: '#FF860D',
-              color: '#FFF',
-            })}
-            {divNode('Delete', {
-              background: '#FA2C19',
-              color: '#FFF',
-            })}
-          </>
-        </div>
-      }
-    >
-      <Cell title={`${translated.leftDel}+Icon`} radius={0} />
-    </Swipe>
-  </>
-}
-export default App;
-
-```
+:::
 
 ### Control via instance method
 
 :::demo
 
-```tsx
-import React from "react";
-import { Swipe, Cell, Button } from '@nutui/nutui-react';
-
-const App = () => {
-  const closeRef = useRef(null)
-  const openRef = useRef(null)
-  return <>
-    <Swipe
-      ref={openRef}
-      rightAction={
-        <Button shape="square" type="danger">
-          Delete
-        </Button>
-      }
-    >
-      <Cell title='Click the button below to open or close' radius={0} />
-    </Swipe>
-    <Button onClick={() => openRef.current?.open()} type="primary"
-            size="small">
-      Open
-    </Button>
-    <Button onClick={() => openRef.current?.close()}>
-      Close
-    </Button>
-  </>
-}
-export default App;
-```
+<CodeBlock src='h5/demo3.tsx'></CodeBlock>
 
 :::
 
@@ -148,30 +40,7 @@ export default App;
 
 :::demo
 
-```tsx
-import React from "react";
-import { Swipe, Cell, Button } from '@nutui/nutui-react';
-
-const App = () => {
-  const closeRef = useRef(null)
-  return <>
-    <Swipe
-      ref={openRef}
-      rightAction={
-        <Button shape="square" type="danger">
-          Delete
-        </Button>
-      }
-      onActionClick={() => {
-        closeRef.current.close()
-      }}
-    >
-      <Cell title='Click the right button to close' radius={0} />
-    </Swipe>
-  </>
-}
-export default App;
-```
+<CodeBlock src='h5/demo4.tsx'></CodeBlock>
 
 :::
 
@@ -179,27 +48,7 @@ export default App;
 
 :::demo
 
-```tsx
-import React from "react";
-import { Swipe, Cell, Button } from '@nutui/nutui-react';
-
-const App = () => {
-  return <>
-    <Swipe
-      rightAction={
-        <Button shape="square" type="danger">
-          delete
-        </Button>
-      }
-      disabled
-    >
-      <cell title= "disable sliding" />
-    </Swipe>
-  </>
-}
-
-export default App;
-```
+<CodeBlock src='h5/demo5.tsx'></CodeBlock>
 
 :::
 
@@ -207,41 +56,7 @@ export default App;
 
 :::demo
 
-```tsx
-import React from "react";
-import { Swipe, Cell, Button, Toast } from '@nutui/nutui-react';
-
-const App = () => {
-  const handleChange = () => {
-    Toast.show ('click ');
-  }
-  return <>
-    <Swipe
-      leftAction={
-        <Button shape="square" type="success">
-          choice
-        </Button>
-      }
-      rightAction={
-        <>
-          <Button shape="square" type="danger">
-            delete
-          </Button>
-          <Button shape="square" type="info">
-            Collection
-          </Button>
-        </>
-      }
-      onActionClick={handleChange}
-      onOpen={() => Toast.show('open')}
-      onClose={() => Toast.show('close')}
-    >
-      <cell title= "event" />
-    </Swipe>
-  </>
-}
-export default App;
-```
+<CodeBlock src='h5/demo6.tsx'></CodeBlock>
 
 :::
 
@@ -249,46 +64,7 @@ export default App;
 
 :::demo
 
-```tsx
-import React, { useRef } from "react";
-
-import { Swipe, Cell, Button, Dialog } from '@nutui/nutui-react';
-import { SwipeInstance } from '@/packages/Swipe'
-
-const App = () => {
-  const refDom = useRef<SwipeInstance>(null)
-  const beforeClose = (postion: string) => {
-    Dialog.alert({
-      Title: 'prompt',
-      content: postion === 'left' ? ' Are you sure to choose? ':' Are you sure to delete? ',
-      onConfirm: () => {
-        refDom. current && refDom.current.close()
-      },
-    })
-  }
-  return <>
-    <Swipe
-      ref={refDom}
-      beforeClose={beforeClose}
-      leftAction={
-        <Button shape="square" type="success">
-          choice
-        </Button>
-      }
-      rightAction={
-        <>
-          <Button shape="square" type="danger">
-            delete
-          </Button>
-        </>
-      }
-    >
-      <cell title= "event" />
-    </Swipe>
-  </>
-}
-export default App;
-```
+<CodeBlock src='h5/demo7.tsx'></CodeBlock>
 
 :::
 
@@ -296,38 +72,7 @@ export default App;
 
 :::demo
 
-```tsx
-import React from "react";
-import { Swipe, Cell, Button, InputNumber } from '@nutui/nutui-react';
-
-const App = () => {
-  return <>
-    <Swipe
-      rightAction={
-        <>
-          <Button shape="square" type="danger">
-          add to cart
-          </Button>
-        </>
-      }
-    >
-      <Cell>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            width: '100%',
-          }}
-        >
-          <span>Merchandise</span>
-          <InputNumber style={{ float: 'right' }} />
-        </div>
-      </Cell>
-    </Swipe>
-  </>
-}
-export default App;
-```
+<CodeBlock src='h5/demo8.tsx'></CodeBlock>
 
 :::
 
